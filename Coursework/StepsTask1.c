@@ -6,7 +6,7 @@
 typedef struct {
 	char date[11];
 	char time[6];
-	int steps;
+	char steps[6];
 } FITNESS_DATA;
 
 // Define any additional variables here
@@ -44,13 +44,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 // Complete the main function
 int main() {
 
-    typedef struct{
-        char date[10];
-        char time[5];
-        char steps[6];
-    }dataLine;
-
-    dataLine array[60];
+    FITNESS_DATA array[60];
     unsigned lineCount;
 
     char dataFile [] = "FitnessData_2023.csv";
@@ -58,16 +52,22 @@ int main() {
 
     int buffer_size = 100;
     char line_buffer[buffer_size];
-    char date[30];
-    char time[30];
-    char steps[30];
+    char outDate[30];
+    char outTime[6];
+    char outSteps[6];
+
     while (fgets(line_buffer, buffer_size, file) != NULL) {
-        tokeniseRecord(line_buffer, ",", date, time, steps);
-        array[lineCount].date = date;
-        
-
-        printf("%s\n", array[lineCount].steps);
-
+        tokeniseRecord(line_buffer, ",", outDate, outTime, outSteps);
+        strcpy(array[lineCount].date, outDate);
+        strcpy(array[lineCount].time, outTime);
+        strcpy(array[lineCount].steps, outSteps);
+        //printf("%s\n", outTime);
+        //printf("%s/%s/%s\n", array[lineCount].date, array[lineCount].time, array[lineCount].steps );
         lineCount ++;
 }
+printf("Number of records in file: %d\n", lineCount);
+for(int i = 0; i<3; i++){
+    printf("%s/%s/%s",array[i].date, array[i].time, array[i].steps);
+}
+fclose(file);
 }
