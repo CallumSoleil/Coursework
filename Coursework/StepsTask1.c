@@ -6,7 +6,7 @@
 typedef struct {
 	char date[11];
 	char time[6];
-	char steps[6];
+	int steps;
 } FITNESS_DATA;
 
 // Define any additional variables here
@@ -60,14 +60,14 @@ int main() {
         tokeniseRecord(line_buffer, ",", outDate, outTime, outSteps);
         strcpy(array[lineCount].date, outDate);
         strcpy(array[lineCount].time, outTime);
-        strcpy(array[lineCount].steps, outSteps);
+        array[lineCount].steps = atoi(outSteps);
         //printf("%s\n", outTime);
         //printf("%s/%s/%s\n", array[lineCount].date, array[lineCount].time, array[lineCount].steps );
         lineCount ++;
 }
 printf("Number of records in file: %d\n", lineCount);
 for(int i = 0; i<3; i++){
-    printf("%s/%s/%s",array[i].date, array[i].time, array[i].steps);
+    printf("%s/%s/%d\n",array[i].date, array[i].time, array[i].steps);
 }
 fclose(file);
 }
