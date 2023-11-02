@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -43,6 +43,31 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Complete the main function
 int main() {
-    printf("Hi\n");
 
+    typedef struct{
+        char date[10];
+        char time[5];
+        char steps[6];
+    }dataLine;
+
+    dataLine array[60];
+    unsigned lineCount;
+
+    char dataFile [] = "FitnessData_2023.csv";
+    FILE *file = fopen(dataFile, "r");
+
+    int buffer_size = 100;
+    char line_buffer[buffer_size];
+    char date[30];
+    char time[30];
+    char steps[30];
+    while (fgets(line_buffer, buffer_size, file) != NULL) {
+        tokeniseRecord(line_buffer, ",", date, time, steps);
+        array[lineCount].date = date;
+        
+
+        printf("%s\n", array[lineCount].steps);
+
+        lineCount ++;
+}
 }
