@@ -1,4 +1,4 @@
- #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,8 +10,12 @@ typedef struct {
 } FITNESS_DATA;
 
 // Define any additional variables here
-
-
+int lineCount = 0;
+int arrSize = 0;
+int buffer_size = 100;
+char outDate[11];
+char outTime[6];
+char outSteps[6];
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -43,39 +47,25 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Complete the main function
 int main() {
-
-    int lineCount = 0;
-
     char dataFile1 [] = "FitnessData_2023.csv";
     FILE *file1 = fopen(dataFile1, "r");
-    int arrSize = 0;
-    int buffer_size1 = 100;
-    char line_buffer1[buffer_size1];
-
-    while (fgets(line_buffer1, buffer_size1, file1) != NULL) {
+    char line_buffer1[buffer_size];
+    while (fgets(line_buffer1, buffer_size, file1) != NULL) {
         arrSize ++;
     }
     fclose(file1);
+
     FITNESS_DATA array[arrSize];
-
-
-    int buffer_size2 = 100;
-    char line_buffer2[buffer_size2];
-    char outDate[11];
-    char outTime[6];
-    char outSteps[6];
 
     char dataFile2 [] = "FitnessData_2023.csv";
     FILE *file2 = fopen(dataFile2, "r");
+    char line_buffer2[buffer_size];
 
-    while (fgets(line_buffer2, buffer_size2, file2) != NULL) {
-
+    while (fgets(line_buffer2, buffer_size, file2) != NULL) {
         tokeniseRecord(line_buffer2, ",", outDate, outTime, outSteps);
-
         strcpy(array[lineCount].date, outDate);
         strcpy(array[lineCount].time, outTime);
         array[lineCount].steps = atoi(outSteps);
-        
         lineCount ++;
     }
     printf("Number of records in file: %d\n", lineCount);
