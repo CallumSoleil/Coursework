@@ -44,30 +44,43 @@ void tokeniseRecord(const char *input, const char *delimiter,
 // Complete the main function
 int main() {
 
-    FITNESS_DATA array[60];
-    unsigned lineCount;
+    int lineCount = 0;
 
-    char dataFile [] = "FitnessData_2023.csv";
-    FILE *file = fopen(dataFile, "r");
+    char dataFile1 [] = "FitnessData_2023.csv";
+    FILE *file1 = fopen(dataFile1, "r");
+    int arrSize = 0;
+    int buffer_size1 = 100;
+    char line_buffer1[buffer_size1];
 
-    int buffer_size = 100;
-    char line_buffer[buffer_size];
-    char outDate[30];
+    while (fgets(line_buffer1, buffer_size1, file1) != NULL) {
+        arrSize ++;
+    }
+    fclose(file1);
+    FITNESS_DATA array[arrSize];
+
+
+    int buffer_size2 = 100;
+    char line_buffer2[buffer_size2];
+    char outDate[11];
     char outTime[6];
     char outSteps[6];
 
-    while (fgets(line_buffer, buffer_size, file) != NULL) {
-        tokeniseRecord(line_buffer, ",", outDate, outTime, outSteps);
+    char dataFile2 [] = "FitnessData_2023.csv";
+    FILE *file2 = fopen(dataFile2, "r");
+
+    while (fgets(line_buffer2, buffer_size2, file2) != NULL) {
+
+        tokeniseRecord(line_buffer2, ",", outDate, outTime, outSteps);
+
         strcpy(array[lineCount].date, outDate);
         strcpy(array[lineCount].time, outTime);
         array[lineCount].steps = atoi(outSteps);
-        //printf("%s\n", outTime);
-        //printf("%s/%s/%s\n", array[lineCount].date, array[lineCount].time, array[lineCount].steps );
+        
         lineCount ++;
-}
-printf("Number of records in file: %d\n", lineCount);
-for(int i = 0; i<3; i++){
-    printf("%s/%s/%d\n",array[i].date, array[i].time, array[i].steps);
-}
-fclose(file);
+    }
+    printf("Number of records in file: %d\n", lineCount);
+    for(int i = 0; i<3; i++){
+        printf("%s/%s/%d\n",array[i].date, array[i].time, array[i].steps);
+    }
+    fclose(file2);
 }
