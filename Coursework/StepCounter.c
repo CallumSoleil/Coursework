@@ -45,39 +45,39 @@ int main() {
    
     char menu;
     char filename[100];
-    while (menu != 'Q' | menu != 'q'){
-    printf("\nA: Specify the filename to be imported\nB: Display the total number of records in the file\nC: Find the date and time of the timeslot with the fewest steps\nD: Find the data and time of the timeslot with the largest number of steps\nE: Find the mean step count of all the records in the file\nF: Find the longest continuous period where the step count is above 500 steps\nQ: Exit \n");
-    scanf("%c", &menu);
+    while (menu != 'Q' || menu != 'q'){
+        printf("\nA: Specify the filename to be imported\nB: Display the total number of records in the file\nC: Find the date and time of the timeslot with the fewest steps\nD: Find the data and time of the timeslot with the largest number of steps\nE: Find the mean step count of all the records in the file\nF: Find the longest continuous period where the step count is above 500 steps\nQ: Exit \n");
+        scanf(" %c", &menu);
 
-    switch (menu){
-        case 'A':
-        printf("Input file name: ");
-        scanf("%s", filename);
+        switch (menu){
+            case 'A':
+            printf("Input file name: ");
+            scanf("%s", filename);
 
-        FILE *file = fopen(filename, "r");
+            FILE *file = fopen(filename, "r");
 
-        if (!file){
-            printf("Error: could not open file\n");
-        }
-        break;
+            if (!file){
+               printf("Error: could not open file\n");
+            }
+            break;
 
-        case 'B':
-        break;
+            case 'B':
+            break;
 
-        case 'C':
-        break;
+            case 'C':
+            break;
 
-        case 'D':
-        break;
+            case 'D':
+            break;
 
-        case 'E':
-        break;
+            case 'E':
+            break;
 
-        case 'F':
-        break;
+            case 'F':
+            break;
         
-        default:
-        printf("Invalid choice\n");
-    }
+            default:
+            printf("Invalid choice\n");
+        }
     }
 }
