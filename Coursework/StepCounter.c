@@ -7,8 +7,15 @@
 
 // Define any additional variables here
 // Global variables for filename and FITNESS_DATA array
-
-
+int lineCount = 0;
+int arrSize = 0;
+int buffer_size = 100;
+char outDate[11];
+char outTime[6];
+char outSteps[6];
+int lowestStepsIndex = 0;
+int highestStepsIndex = 0;
+FITNESS_DATA array[1000];
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
 // Ouputs: date character array; time character array; steps character array
@@ -38,11 +45,9 @@ void tokeniseRecord(const char *input, const char *delimiter,
                     }
 
 
-
-
 // Complete the main function
 int main() {
-   
+    
     char menu;
     char filename[100];
     while (menu != 'Q' || menu != 'q'){
@@ -54,20 +59,55 @@ int main() {
             printf("Input file name: ");
             scanf("%s", filename);
 
-            FILE *file = fopen(filename, "r");
+            FILE *file1 = fopen(filename, "r");
 
-            if (!file){
+            if (!file1){
                printf("Error: could not open file\n");
+            }
+            else{
+                arrSize = 0;
+                char line_buffer1[buffer_size];
+                while (fgets(line_buffer1, buffer_size, file1) != NULL) {
+                    arrSize ++;
+                }
+                fclose(file1);
+                
+                FILE *file2 = fopen(filename, "r");
+                char line_buffer2[buffer_size];
+
+                lineCount = 0;
+                while (fgets(line_buffer2, buffer_size, file2) != NULL) {
+                    tokeniseRecord(line_buffer2, ",", outDate, outTime, outSteps);
+                    strcpy(array[lineCount].date, outDate);
+                    strcpy(array[lineCount].time, outTime);
+                    array[lineCount].steps = atoi(outSteps);
+                    lineCount ++;
+                }
             }
             break;
 
             case 'B':
+                printf("Total records: %d\n", arrSize);
             break;
 
             case 'C':
+                
+                for(int i = 1; i<arrSize; i++){
+                    if (array[i].steps < array[lowestStepsIndex].steps){
+                        lowestStepsIndex = i;
+                    }
+                }
+                printf("Fewest steps: %s %s", array[lowestStepsIndex].date, array[lowestStepsIndex].time);
+
             break;
 
             case 'D':
+            for(int i = 1; i<arrSize; i++){
+                    if (array[i].steps > array[highestStepsIndex].steps){
+                        highestStepsIndex = i;
+                    }
+                }
+                printf("Largest steps: %s %s", array[lowestStepsIndex].date, array[lowestStepsIndex].time);
             break;
 
             case 'E':
