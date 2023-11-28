@@ -15,6 +15,12 @@ char outTime[6];
 char outSteps[6];
 int lowestStepsIndex = 0;
 int highestStepsIndex = 0;
+int conti500 = 0;
+float total = 0;
+char inLoop = 'F';
+int tempConti = 0;
+int contiEnd = 0;
+
 FITNESS_DATA array[1000];
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -50,7 +56,7 @@ int main() {
     
     char menu;
     char filename[100];
-    while (menu != 'Q' || menu != 'q'){
+    while (1==1){
         printf("\nA: Specify the filename to be imported\nB: Display the total number of records in the file\nC: Find the date and time of the timeslot with the fewest steps\nD: Find the data and time of the timeslot with the largest number of steps\nE: Find the mean step count of all the records in the file\nF: Find the longest continuous period where the step count is above 500 steps\nQ: Exit \n");
         scanf(" %c", &menu);
 
@@ -97,7 +103,7 @@ int main() {
                         lowestStepsIndex = i;
                     }
                 }
-                printf("Fewest steps: %s %s", array[lowestStepsIndex].date, array[lowestStepsIndex].time);
+                printf("Fewest steps: %s %s\n", array[lowestStepsIndex].date, array[lowestStepsIndex].time);
 
             break;
 
@@ -107,14 +113,48 @@ int main() {
                         highestStepsIndex = i;
                     }
                 }
-                printf("Largest steps: %s %s", array[lowestStepsIndex].date, array[lowestStepsIndex].time);
+                printf("Largest steps: %s %s\n", array[lowestStepsIndex].date, array[lowestStepsIndex].time);
             break;
 
             case 'E':
+            for(int i = 0; i<arrSize; i++){
+                total = total + array[i].steps;
+            }
+            printf("Mean step count: %d\n", (int)((total/arrSize)+ 0.5));
             break;
 
             case 'F':
+        
+            for(int i = 0; i<arrSize; i++){
+                if (array[i].steps >= 500){
+                    if(inLoop == 'T'){
+                        tempConti += 1;
+                    }
+                    else{
+                        tempConti = 1;
+                        inLoop = 'T';
+                    }
+                }
+                else{
+                    inLoop = 'F';
+                    if (tempConti > conti500){
+                        conti500 = tempConti;
+                        contiEnd = i-1;
+                    }
+                }
+
+                }
+                if (tempConti > conti500){
+                        conti500 = tempConti;
+                        contiEnd = arrSize-2;
+                }
+                printf("Longest period start: %s %s\n", array[contiEnd+1-conti500].date, array[contiEnd+1-conti500].time);
+                printf("Longest period end: %s %s\n", array[contiEnd].date, array[contiEnd].time);
+            
             break;
+
+            case 'Q':
+            return 0;
         
             default:
             printf("Invalid choice\n");
