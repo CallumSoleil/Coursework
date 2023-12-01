@@ -69,6 +69,7 @@ int main() {
 
             if (!file1){
                printf("Error: could not open file\n");
+               return 1;
             }
             else{
                 arrSize = 0;
@@ -113,7 +114,7 @@ int main() {
                         highestStepsIndex = i;
                     }
                 }
-                printf("Largest steps: %s %s\n", array[lowestStepsIndex].date, array[lowestStepsIndex].time);
+                printf("Largest steps: %s %s\n", array[highestStepsIndex].date, array[highestStepsIndex].time);
             break;
 
             case 'E':
