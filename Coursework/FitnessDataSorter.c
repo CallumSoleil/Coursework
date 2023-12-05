@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "FitnessDataStruct.h"
+#include <ctype.h>
 
 // Define the struct for the fitness data
 typedef struct {
@@ -17,6 +18,7 @@ char outDate[11];
 char outTime[6];
 char outSteps[6];
 char filename[100];
+char accept = 'T';
 FITNESS_DATA array[1000];
 
 // Function to tokenize a record
@@ -39,6 +41,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
     if (token != NULL) {
         strcpy(steps, token);
     }
+    
     
     // Free the duplicated string
     free(inputCopy);
@@ -72,14 +75,31 @@ int main() {
         FILE *file2 = fopen(filename, "r");
         char line_buffer2[buffer_size];
 
-        lineCount = 0;
-        char accept = 'T'
+        lineCount = 0;        
+        char stepTemp[100];
+        int stepIndex = 0;
         while (fgets(line_buffer2, buffer_size, file2) != NULL) {
             tokeniseRecord(line_buffer2, ",", outDate, outTime, outSteps);
             strcpy(array[lineCount].date, outDate);
             strcpy(array[lineCount].time, outTime);
+            strcpy(stepTemp, outSteps);
+
+            size_t length = strlen(stepTemp);
+            size_t i = 0; 
+            for (; i < length; i++) {
+                if (isdigit(stepTemp.[stepIndex]) == 0){
+                    accept = 'F';
+                }
+                stepIndex++;
+            }
+            stepIndex = 0;
+
             array[lineCount].steps = atoi(outSteps);
-             if(strchr(str, '!') != NULL)
+            
+             if((strchr(array[lineCount].date, '-') == NULL) || (strchr(array[lineCount].time, ':') == NULL) || accept == 'F'){
+                printf("Error: invalid file\n");
+                return 1;
+             }
             lineCount ++;
         }
 
