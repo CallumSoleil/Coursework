@@ -40,14 +40,12 @@ void tokeniseRecord(const char *input, const char *delimiter,
     token = strtok(NULL, delimiter);
     if (token != NULL) {
         strcpy(steps, token);
-    }
-    
+    }    
     
     // Free the duplicated string
     free(inputCopy);
 
                     }
-
 
 int main() {
 
@@ -77,30 +75,47 @@ int main() {
 
         lineCount = 0;        
         char stepTemp[100];
-        int stepIndex = 0;
-        while (fgets(line_buffer2, buffer_size, file2) != NULL) {
+
+        for(; lineCount < arrSize; lineCount ++){
+        //while (fgets(line_buffer2, buffer_size, file2) != NULL) {
+            fgets(line_buffer2, buffer_size, file2);
             tokeniseRecord(line_buffer2, ",", outDate, outTime, outSteps);
             strcpy(array[lineCount].date, outDate);
             strcpy(array[lineCount].time, outTime);
             strcpy(stepTemp, outSteps);
 
+            char stepExist = 'F';
             size_t length = strlen(stepTemp);
-            size_t i = 0; 
-            for (; i < length; i++) {
-                if (isdigit(stepTemp.[stepIndex]) == 0){
+            
+            if(lineCount == arrSize -1){
+                for (size_t i = 0; i < length; i++) {
+                stepExist ='T';
+                if (isdigit(stepTemp[i]) == 0){
+                    
                     accept = 'F';
                 }
-                stepIndex++;
             }
-            stepIndex = 0;
+            }
+
+
+            for (size_t i = 0; i < length-2; i++) {
+                stepExist ='T';
+                if (isdigit(stepTemp[i]) == 0){
+                    
+                    accept = 'F';
+                }
+            }
+            
+            if(stepExist == 'F'){
+                accept = 'F';
+            }
+            
 
             array[lineCount].steps = atoi(outSteps);
-            
              if((strchr(array[lineCount].date, '-') == NULL) || (strchr(array[lineCount].time, ':') == NULL) || accept == 'F'){
                 printf("Error: invalid file\n");
                 return 1;
              }
-            lineCount ++;
         }
 
 
